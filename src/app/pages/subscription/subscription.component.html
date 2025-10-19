@@ -1,0 +1,70 @@
+<div class="min-h-screen bg-gray-50 py-10">
+  <h1 class="text-3xl font-bold text-center mb-8">Subscription Plans</h1>
+
+  <!-- Plans grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
+    <div
+      *ngFor="let plan of plans"
+      [ngClass]="{
+        'border-blue-500 shadow-xl bg-blue-50': plan.highlight,
+        'border-yellow-500 bg-yellow-50': plan.premium
+      }"
+      class="border rounded-2xl p-6 flex flex-col justify-between transition-transform hover:scale-105 duration-200"
+    >
+      <div>
+        <h2 class="text-xl font-semibold mb-2">{{ plan.name }}</h2>
+        <p class="text-2xl font-bold text-green-600 mb-1">{{ plan.price }} BDT</p>
+        <p class="text-gray-600 text-sm mb-2">{{ plan.duration }} | {{ plan.sms }}</p>
+        <p class="text-gray-500 text-sm italic">{{ plan.tagline }}</p>
+      </div>
+
+      <div class="mt-6 flex justify-center">
+        <button
+          class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+          (click)="selectPlan(plan)">
+          Select
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Section -->
+  <div *ngIf="selectedPlan" class="mt-10 max-w-xl mx-auto bg-white shadow-md rounded-2xl p-6">
+    <h2 class="text-2xl font-bold mb-4 text-center">Checkout Summary</h2>
+
+    <p class="text-lg mb-2">
+      <span class="font-semibold">Selected Plan:</span> {{ selectedPlan.name }}
+    </p>
+    <p class="text-lg mb-2">
+      <span class="font-semibold">Base Price:</span> {{ selectedPlan.price }} BDT
+    </p>
+
+    <!-- SMS Toggle -->
+    <div class="flex items-center gap-2 mt-4">
+      <label class="font-semibold">Add Extra SMS?</label>
+      <input type="checkbox" [(ngModel)]="smsEnabled" class="h-5 w-5">
+    </div>
+
+    <!-- SMS input shown only when enabled -->
+    <div *ngIf="smsEnabled" class="mt-3">
+      <label class="block text-gray-600 mb-1">Number of Extra SMS:</label>
+      <input type="number" [(ngModel)]="extraSms" min="0"
+             class="w-full border p-2 rounded-md focus:ring focus:ring-blue-300">
+      <p class="text-sm text-gray-500 mt-1">
+        Rate: {{ smsRate }} BDT per SMS
+      </p>
+    </div>
+
+    <!-- Total -->
+    <p class="text-xl font-bold mt-4 text-green-700">
+      Total Price: {{ total | number:'1.0-2' }} BDT
+    </p>
+
+    <!-- Buttons -->
+    <div class="flex justify-between mt-6">
+      <button class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">Buy</button>
+      <button class="bg-gray-400 text-white px-5 py-2 rounded-lg hover:bg-gray-500"
+              (click)="cancelSelection()">Cancel</button>
+    </div>
+  </div>
+</div>
