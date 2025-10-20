@@ -7,7 +7,6 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './data-table-page.component.html',
-  styleUrls: ['./data-table-page.component.css']
 })
 export class DataTablePageComponent implements OnInit {
   users: any[] = [];
